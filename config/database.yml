@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: sinatra
+  username: rails
+  password: password
+  host: localhost
