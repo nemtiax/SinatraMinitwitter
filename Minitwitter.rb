@@ -5,7 +5,10 @@ require 'sinatra/static_assets'
 require './config/environments' #database configuration
 
 require './models/model'
- 
+
+enable :sessions
+
+
 get '/' do
     @tweets = get_recent_tweets(10)
 	erb :login
