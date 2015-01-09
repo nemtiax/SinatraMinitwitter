@@ -11,8 +11,22 @@ get '/' do
 	erb :login
 end
 
+put '/login' do
+		@user = User.authenticate(params[:name], params[:pass])
+		if(@user == nil)
+			redirect_to login_url
+		else 
+			session[:user_id] = @user.id
+			session[:user_name] = @user.name
+			redirect_to home_url
+		end
+end
+
 
 ####HELPERS#######
+
+
+	
 
     def get_followed_tweets(user, num_results)
 		user.followed_tweets.order(:created_at).reverse.first(num_results)
