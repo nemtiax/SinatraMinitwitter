@@ -10,7 +10,7 @@
 <div class="container">
 
 <h1>Welcome, <%= @user.name %>!</h1>
-<form action="/tweets" accept-charset="UTF-8" method="post">
+<form action="/tweet" accept-charset="UTF-8" method="post">
 	<label for="tweet_text">Tweet Something:</label>
 	<input type="text" name="tweet_text" id="tweet_text" />
 	<input type="submit" name="commit" value="Tweet It!" />
