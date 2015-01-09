@@ -11,7 +11,7 @@ get '/' do
 	erb :login
 end
 
-put '/login' do
+post '/login' do
 		@user = User.authenticate(params[:name], params[:pass])
 		if(@user == nil)
 			redirect '/'
