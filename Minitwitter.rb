@@ -14,12 +14,16 @@ end
 put '/login' do
 		@user = User.authenticate(params[:name], params[:pass])
 		if(@user == nil)
-			redirect_to login_url
+			redirect '/'
 		else 
 			session[:user_id] = @user.id
 			session[:user_name] = @user.name
-			redirect_to home_url
+			redirect '/home'
 		end
+end
+
+get '/home' do
+
 end
 
 
