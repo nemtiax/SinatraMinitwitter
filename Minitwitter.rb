@@ -23,7 +23,13 @@ post '/login' do
 end
 
 get '/home' do
-
+	if(session[:user_id]== nil) 
+		redirect '/'
+	else 
+		@user = User.find(session[:user_id])
+		@followed_tweets = get_followed_tweets(@user,10)
+		erb :home
+	end
 end
 
 
