@@ -35,7 +35,7 @@ get '/home' do
 	end
 end
 
-post 'tweet' do
+post '/tweet' do
 	@tweet = Tweet.new(user_id: session[:user_id], body: params[:tweet_text])
 	@tweet.save
 	redirect '/home'
