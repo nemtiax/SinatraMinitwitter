@@ -42,7 +42,7 @@ post '/tweet' do
 end
 
 get '/users/:id_or_name' do
-	get_user(id_or_name)
+	get_user(params[:id_or_name])
 	if(@user == nil) 
 		redirect '/'
 	end
