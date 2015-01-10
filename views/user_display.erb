@@ -2,8 +2,8 @@
 <% users.each do |user| %>
 <tr>
 	<td>
-		<a href="/users/<%= tweet.poster.id %>">
-			<img class="img-thumbnail" height="128" width="128"  src="images/<%= tweet.poster.image_url %>" >
+		<a href="/users/<%= user.id %>">
+			<img class="img-thumbnail" height="128" width="128"  src="images/<%= user.image_url %>" >
 		</a>
 	<br>
 	<%= user.name %> 
