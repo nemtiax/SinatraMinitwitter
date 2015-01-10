@@ -11,11 +11,7 @@
 
 <div class="container">
 
-<%= erb: 'user_display', locals: {users: [@user]} %>
-<h1>Tweets from <%= @user.name %></h1>
-<%= erb: "tweet_display", locals: {tweets: @tweets} %>
-<h1>People <%= @user.name %> Follows</h1>
-<%= erb: "user_display", locals: {users: @user.followees} %>
+
 </div>
 
 </body>
