@@ -51,6 +51,17 @@ get '/users/:id_or_name' do
 	erb :user
 end
 
+post '/follow/:id' do
+	if(session[:user_id]== nil) 
+		redirect '/'
+	else 
+		@follower = User.find(session[:user_id])
+		@followee = User.find(params[:id])
+		FollowerConnection.create(follower: @follower, followee: @followee)
+		redirect back
+	end
+end
+
 ####HELPERS#######
 
 
