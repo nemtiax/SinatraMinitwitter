@@ -43,11 +43,7 @@ end
 
 get '/users/:id_or_name' do
 	get_user(params[:id_or_name])
-	if(@user == nil) 
-		redirect '/'
-	end
-	@tweets = get_users_tweets(@user,10)
-	@followees = @user.followees
+
 	
 end
 
