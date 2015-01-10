@@ -3,24 +3,8 @@
 <tr>
 	<td>
 		<a href="/users/<%= user.id %>">
-			<img class="img-thumbnail" height="128" width="128"  src="images/<%= user.image_url %>" >
+			<%= user.name %>
 		</a>
-	<br>
-	<%= user.name %> 
-	<br> 
-	<div class="btn btn-default">
-		<form action="/follow/<%= user.id %>" accept-charset="UTF-8" method="post">
-			<input type="Follow!" name="commit" value="Login" />
-		</form>
-	</div>
-	</td>
-
-	<td>
-	<ul>
-	<li>Tweets: <%= user.tweets.count %></li>
-	<li>Followers: <%= user.followers.count %></li>
-	<li>Followees: <%= user.followees.count %></li>
-	</ul>
 	</td>
 </tr>
 <% end %>
