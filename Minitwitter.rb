@@ -46,8 +46,7 @@ get '/users/:id_or_name' do
 	if(@user == nil) 
 		redirect '/'
 	end
-	erb :debug
-	#@tweets = get_users_tweets(@user,10)
+	@tweets = get_users_tweets(@user,10)
 	#@followees = @user.followees
 	
 end
