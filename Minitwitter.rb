@@ -41,7 +41,7 @@ post '/tweet' do
 	redirect '/home'
 end
 
-get '/user/:id_or_name' do
+get '/users/:id_or_name' do
 	get_user(id_or_name)
 	if(@user == nil) 
 		redirect '/'
