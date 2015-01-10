@@ -48,7 +48,7 @@ get '/users/:id_or_name' do
 	end
 	@tweets = get_users_tweets(@user,10)
 	#@followees = @user.followees
-	
+	erb :debug
 end
 
 ####HELPERS#######
