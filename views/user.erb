@@ -1,0 +1,24 @@
+<html>
+<head>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+
+
+<div class="container">
+
+<%= erb :'tweet_display', locals: {tweets: @followed_tweets} %>
+
+<%= erb: 'user_display', locals: {users: [@user]} %>
+<h1>Tweets from <%= @user.name %></h1>
+<%= erb: "tweet_display", locals: {tweets: @tweets} %>
+<h1>People <%= @user.name %> Follows</h1>
+<%= erb: "user_display", locals: {users: @user.followees} %>
+</div>
+
+</body>
+</html>

@@ -41,12 +41,29 @@ post '/tweet' do
 	redirect '/home'
 end
 
+get '/user/:id_or_name' do
+	get_user(id_or_name)
+	if(@user == nil) 
+		redirect '/'
+	end
+	@tweets = get_users_tweets(@user,10)
+	@followees = @user.followees
+	
+end
 
 ####HELPERS#######
 
 
 	
 
+	def get_user(id_or_name)
+		begin
+			@user = User.find(id_or_name)
+		rescue ActiveRecord::RecordNotFound
+			@user = User.where(name: id_or_name).first
+		end
+	end
+	
     def get_followed_tweets(user, num_results)
 		user.followed_tweets.order(:created_at).reverse.first(num_results)
 	end
