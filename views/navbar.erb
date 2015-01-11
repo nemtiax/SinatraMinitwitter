@@ -1,0 +1,25 @@
+  <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand">Minitwitter</a>
+        </div>
+        
+          <ul class="nav navbar-nav">
+            <li><a href="/home">Home</a></li>
+			 <li><a href="/tweets">Firehose</a></li>
+			<% if(session[:user_id] == nil) %>
+			<li><a href="/">Login</a></li>
+			<% else %>
+			<li><a href="/logout">Logout</a></li>
+			<% end %>
+          </ul>
+		  
+		  <% if(session[:user_name] != nil) %>
+		  <div class="navbar-header navbar-right">
+			<a class="navbar-brand">Welcome, <%= session[:user_name] %> </a>
+		  </div>
+		  <% end %>
+      
+        
+      </div>
+    </nav>
