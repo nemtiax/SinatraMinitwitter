@@ -1,0 +1,16 @@
+<html>
+<head>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<%= erb :'navbar' %>
+<div class="container">
+<h1>Recent Tweets</h1>
+<%= erb :'tweet_display', locals: {tweets: @tweets} %>
+</div>
+
+</body>
+</html>

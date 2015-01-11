@@ -72,6 +72,11 @@ post '/register' do
 	redirect '/'
 end
 
+get '/tweets' do
+	@tweets = get_recent_tweets(10)
+	erb :firehose
+end
+
 ####HELPERS#######
 
 
