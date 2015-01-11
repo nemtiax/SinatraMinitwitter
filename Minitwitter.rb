@@ -66,6 +66,12 @@ get '/register' do
 	erb :register
 end
 
+post '/register' do
+	@user = User.new(name: params[:user_name],email: params[:user_email],password: params[:user_password], image_url: params[:user_image_url])
+	@user.save
+	redirect '/'
+end
+
 ####HELPERS#######
 
 
