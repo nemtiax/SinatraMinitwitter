@@ -62,6 +62,10 @@ post '/follow/:id' do
 	end
 end
 
+get '/register' do
+	erb :register
+end
+
 ####HELPERS#######
 
 

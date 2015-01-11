@@ -1,0 +1,37 @@
+<html>
+<head>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div class="container">
+<h1>Register</h1>
+
+<form id="new_user" action="/register" accept-charset="UTF-8" method="post">
+  <div class="field">
+    <label for="user_name">Name</label><br>
+    <input type="text" name="user[name]" id="user_name" />
+  </div>
+  <div class="field">
+    <label for="user_email">Email</label><br>
+    <input type="text" name="user_email" id="user_email" />
+  </div>
+  <div class="password">
+	<label for="user_password">Password</label><br>
+	<input type="text" name="user_password" id="user_password" />
+  </div>
+  <div class="field">
+    <label for="user_image_url">Image url</label><br>
+    <input type="text" name="user_image_url" id="user_image_url" />
+  </div>
+  <div class="actions">
+    <input type="submit" name="commit" value="Create User" />
+  </div>
+</form>
+</div>
+
+</body>
+</html>
