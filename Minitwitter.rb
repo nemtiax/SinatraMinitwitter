@@ -77,6 +77,12 @@ get '/tweets' do
 	erb :firehose
 end
 
+get '/logout' do
+	session.delete :user_id
+	session.delete :user_name
+	redirect '/'
+end
+
 ####HELPERS#######
 
 
