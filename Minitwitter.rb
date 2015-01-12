@@ -105,5 +105,5 @@ end
 	end
 	
 	def get_recent_tweets(num_results)
-		Tweet.all.order(:created_at).reverse.first(num_results)
+		Tweet.includes(:poster).all.order(:created_at).reverse.first(num_results)
 	end
