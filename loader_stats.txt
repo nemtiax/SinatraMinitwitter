@@ -1,3 +1,4 @@
 Baseline: http://ldr.io/14JCq1r
 2 Dynos: http://ldr.io/1DyYSZv
 Unicorn: http://ldr.io/1Dz0Rgl
+Unicorn + eager loading: http://ldr.io/14K47HC

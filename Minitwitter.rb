@@ -10,7 +10,7 @@ enable :sessions
 
 
 get '/' do
-    @tweets = get_recent_tweets(10)
+    @tweets = get_recent_tweets(100)
 	erb :login
 end
 
