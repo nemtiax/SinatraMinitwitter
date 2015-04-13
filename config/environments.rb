@@ -10,4 +10,8 @@ configure :production, :development do
 			:database => db.path[1..-1],
 			:encoding => 'utf8'
 	)
+	
+	
+	require 'newrelic_rpm'
+	
 end
