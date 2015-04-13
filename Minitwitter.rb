@@ -8,6 +8,7 @@ require './models/model'
 
 enable :sessions
 
+ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 get '/' do
     @tweets = get_recent_tweets(100)
