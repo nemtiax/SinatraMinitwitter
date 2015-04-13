@@ -46,6 +46,7 @@ f.each_line do |line|
 		count = count + 1
 		if(count%1000 == 0) 
 			puts "#{count} follows created\n"
+			break
 		end
 	end
 end
@@ -66,6 +67,7 @@ f.each_line do |line|
 		count = count + 1
 		if(count%1000 == 0) 
 			puts "#{count} tweets posted\n"
+			break
 		end
 		
 		Tweet.create({body: "#{tweet}",poster: userMap[id],created_at: Time.parse(date).to_datetime})
