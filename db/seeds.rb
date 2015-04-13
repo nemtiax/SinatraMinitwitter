@@ -28,6 +28,7 @@ f.each_line do |line|
 		puts "Created #{name}"
 end
 
+puts "Starting follows"
 f = File.open("db/follows.csv","r")
 
 
@@ -46,11 +47,12 @@ f.each_line do |line|
 		count = count + 1
 		if(count%1000 == 0) 
 			puts "#{count} follows created\n"
-			break
 		end
 	end
 end
 
+
+puts "Starting tweets"
 
 f = File.open("db/tweets.csv", "r")
 
@@ -67,7 +69,6 @@ f.each_line do |line|
 		count = count + 1
 		if(count%1000 == 0) 
 			puts "#{count} tweets posted\n"
-			break
 		end
 		
 		Tweet.create({body: "#{tweet}",poster: userMap[id],created_at: Time.parse(date).to_datetime})
