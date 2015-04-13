@@ -31,6 +31,8 @@ end
 f = File.open("db/follows.csv","r")
 
 
+FollowerConnection.destroy_all
+
 followSet = Set.new
 
 count = 0
