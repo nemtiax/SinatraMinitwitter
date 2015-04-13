@@ -33,7 +33,7 @@ f = File.open("db/follows.csv","r")
 
 followSet = Set.new
 
-
+count = 0
 f.each_line do |line|
 	if(not followSet.include?(line))
 		followSet.add(line)
@@ -41,6 +41,10 @@ f.each_line do |line|
 		follower = items[0]
 		followee = items[1]
 		FollowerConnection.create(follower: userMap[follower], followee: userMap[followee])
+		count = count + 1
+		if(count%1000 == 0) 
+			puts "#{count} follows created\n"
+		end
 	end
 end
 
