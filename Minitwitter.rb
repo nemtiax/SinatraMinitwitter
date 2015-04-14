@@ -98,13 +98,13 @@ end
 	end
 	
     def get_followed_tweets(user, num_results)
-		user.followed_tweets.order(:created_at).reverse.first(num_results)
+		user.followed_tweets.order(:created_at).limit(num_results)
 	end
 	
 	def get_users_tweets(user,num_results)
-		user.tweets.order(:created_at).reverse.first(num_results)
+		user.tweets.order(:created_at).last(num_results)
 	end
 	
 	def get_recent_tweets(num_results)
-		Tweet.includes(:poster).all.order(:created_at).reverse.first(num_results)
+		Tweet.includes(:poster).all.order(:created_at).last(num_results)
 	end
