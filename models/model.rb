@@ -1,5 +1,14 @@
 class Tweet < ActiveRecord::Base
-	belongs_to :poster, class_name: "User", foreign_key: "user_id"	
+	belongs_to :poster, class_name: "User", foreign_key: "user_id"
+	
+	def cached_poster
+		if(defined? REDIS and REDIS.contains("USER_#{user_id}"))
+			return User.new.from_json(REDIS.get("USER_#{user_id}"))
+		else
+			return poster
+		end
+	end
+	
 end
 
 class FollowerConnection < ActiveRecord::Base

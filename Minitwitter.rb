@@ -119,14 +119,15 @@ end
 		if(not REDIS.exists("firehose"))
 			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 			recentTweets.each do |tweet|
-				puts "STORED: #{tweet.to_json}"
+				#puts "STORED: #{tweet.to_json}"
 				REDIS.rpush("firehose",tweet.to_json)
+				REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
 			end
 		end
 		tweets = REDIS.lrange("firehose",0,100)
 		result = []
 		tweets.each do |tweet|
-			puts "FETCHED: #{tweet}"
+			#puts "FETCHED: #{tweet}"
 			result << Tweet.new.from_json(tweet)
 		end
 		return result
