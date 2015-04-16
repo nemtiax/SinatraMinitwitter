@@ -2,12 +2,12 @@ class Tweet < ActiveRecord::Base
 	belongs_to :poster, class_name: "User", foreign_key: "user_id"
 	
 	def cached_poster(redis)
-		puts "CHECKING CACHE FOR USER_#{user_id}"
+		#puts "CHECKING CACHE FOR USER_#{user_id}"
 		if(redis.exists("USER_#{user_id}"))
-			puts "EXISTS!"
+			#puts "EXISTS!"
 			return User.new.from_json(redis.get("USER_#{user_id}"))
 		else
-			puts "DOES NOT EXIST!"
+			#puts "DOES NOT EXIST!"
 			return poster
 		end
 	end
