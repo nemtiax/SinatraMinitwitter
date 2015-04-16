@@ -2,13 +2,13 @@
 	<% tweets.each do |tweet| %>
 		<tr>
 			<td>
-				<a href="/users/<%= tweet.cached_poster.id %>">
-					<!-- <img class="img-thumbnail" height="128" width="128"  src="/images/<%= tweet.cached_poster.image_url %>" > -->
+				<a href="/users/<%= tweet.cached_poster(REDIS).id %>">
+					<!-- <img class="img-thumbnail" height="128" width="128"  src="/images/<%= tweet.cached_poster(REDIS).image_url %>" > -->
 				</a>
 			</td>
 			<td>
-				<a href="/users/<%= tweet.cached_poster.id %>">
-					<%= tweet.cached_poster.name %>
+				<a href="/users/<%= tweet.cached_poster(REDIS).id %>">
+					<%= tweet.cached_poster(REDIS).name %>
 				</a> sez: "<%= tweet.body %>" at <%= tweet.created_at.strftime("%Y-%m-%d") %> 
 			</td>
 		</tr>
