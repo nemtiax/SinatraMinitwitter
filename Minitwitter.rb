@@ -116,11 +116,14 @@ end
 	
 	def get_recent_tweets(num_results)
 		
-		if(not REDIS.exists("firehose"))
-			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
-			recentTweets.each do |tweet|
-				REDIS.rpush("firehose",tweet)
-			end
-		end
-		return REDIS.lrange("firehose",0,100)
+		#if(not REDIS.exists("firehose"))
+		#	recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+		#	recentTweets.each do |tweet|
+		#		REDIS.rpush("firehose",tweet)
+		#	end
+		#end
+		#return REDIS.lrange("firehose",0,100)
+		
+		@recentTweets ||= Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+		
 	end
