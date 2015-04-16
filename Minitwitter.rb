@@ -115,7 +115,7 @@ end
 	end
 	
 	def get_recent_tweets(num_results)
-		puts "BEGIN GET RECENT TWEETS #{Time.now}"
+		tStart = Time.now
 		if(not REDIS.exists("firehose"))
 			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 			recentTweets.each do |tweet|
@@ -131,7 +131,7 @@ end
 			result << Tweet.new.from_json(tweet)
 		end
 		
-		puts "END GET RECENT TWEETS #{Time.now}"
+		puts "END GET RECENT TWEETS #{tStart - Time.now}"
 		
 		return result
 		
