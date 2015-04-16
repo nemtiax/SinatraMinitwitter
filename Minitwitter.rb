@@ -119,7 +119,7 @@ end
 		if(not REDIS.exists("firehose"))
 			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 			recentTweets.each do |tweet|
-				
+				puts "STORED: #{tweet.to_json}"
 				REDIS.rpush("firehose",tweet.to_json)
 			end
 		end
