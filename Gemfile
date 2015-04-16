@@ -11,3 +11,4 @@ platforms :ruby do # linux
 
 end
 gem "newrelic_rpm"
+gem "redis"
