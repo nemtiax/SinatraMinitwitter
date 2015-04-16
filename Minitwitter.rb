@@ -11,14 +11,14 @@ enable :sessions
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 
-configure do
+before do
 	uri = URI.parse(ENV["REDISTOGO_URL"])
-	@@REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+	REDIS ||= Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 end
 
 get '/' do
     @tweets = get_recent_tweets(100)
-	@REDIS = @@REDIS
+	@REDIS = REDIS
 	
 	
 	erb :login
@@ -115,21 +115,24 @@ end
 	end
 	
 	def get_recent_tweets(num_results)
-		
-		if(not @@REDIS.exists("firehose"))
+		puts "BEGIN GET RECENT TWEETS #{Time.now}"
+		if(not REDIS.exists("firehose"))
 			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 			recentTweets.each do |tweet|
 				#puts "STORED: #{tweet.to_json}"
-				@@REDIS.rpush("firehose",tweet.to_json)
-				@@REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
+				REDIS.rpush("firehose",tweet.to_json)
+				REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
 			end
 		end
-		tweets = @@REDIS.lrange("firehose",0,100)
+		tweets = REDIS.lrange("firehose",0,100)
 		result = []
 		tweets.each do |tweet|
 			#puts "FETCHED: #{tweet}"
 			result << Tweet.new.from_json(tweet)
 		end
+		
+		puts "END GET RECENT TWEETS #{Time.now}"
+		
 		return result
 		
 		#@@recentTweets ||= Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
