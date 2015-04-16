@@ -19,7 +19,7 @@ end
 get '/' do
     @tweets = get_recent_tweets(100)
 	
-	REDIS.set("foo", "bar")
+	
 	
 	erb :login
 end
@@ -115,5 +115,12 @@ end
 	end
 	
 	def get_recent_tweets(num_results)
-		Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+		
+		if(not REDIS.exists("firehose"))
+			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+			recentTweets.each do |tweet|
+				REDIS.rpush("firehose",tweet)
+			end
+		end
+		return REDIS.lrange("firehose",0,100)
 	end
