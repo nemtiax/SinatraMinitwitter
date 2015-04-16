@@ -4,8 +4,10 @@ class Tweet < ActiveRecord::Base
 	def cached_poster(redis)
 		puts "CHECKING CACHE FOR USER_#{user_id}"
 		if(redis.exists("USER_#{user_id}"))
+			puts "EXISTS!"
 			return User.new.from_json(redis.get("USER_#{user_id}"))
 		else
+			puts "DOES NOT EXIST!"
 			return poster
 		end
 	end
