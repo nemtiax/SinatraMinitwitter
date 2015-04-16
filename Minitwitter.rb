@@ -125,9 +125,10 @@ end
 			end
 		end
 		tweets = REDIS.lrange("firehose",0,100)
+		puts "END OF LRANGE #{Time.now-tStart}"
 		result = []
 		tweets.each do |tweet|
-			#puts "FETCHED: #{tweet}"
+			puts "FETCHED: #{Time.now-tStart} #{tweet}"
 			result << Tweet.new.from_json(tweet)
 		end
 		
