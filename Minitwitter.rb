@@ -124,6 +124,6 @@ end
 		#end
 		#return REDIS.lrange("firehose",0,100)
 		
-		@recentTweets ||= Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+		@@recentTweets ||= Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 		
 	end
