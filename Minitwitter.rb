@@ -11,8 +11,16 @@ enable :sessions
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 
+before do
+	uri = URI.parse(ENV["REDISTOGO_URL"])
+	REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+end
+
 get '/' do
     @tweets = get_recent_tweets(100)
+	
+	puts REDIS
+	
 	erb :login
 end
 
