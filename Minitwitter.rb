@@ -19,7 +19,7 @@ end
 get '/' do
     @tweets = get_recent_tweets(100)
 	
-	puts REDIS
+	REDIS.set("foo", "bar")
 	
 	erb :login
 end
