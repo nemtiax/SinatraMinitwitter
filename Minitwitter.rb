@@ -131,7 +131,7 @@ end
 			result << Tweet.new.from_json(tweet)
 		end
 		
-		puts "END GET RECENT TWEETS #{tStart - Time.now}"
+		puts "END GET RECENT TWEETS #{Time.now-tStart}"
 		
 		return result
 		
