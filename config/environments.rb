@@ -11,6 +11,9 @@ configure :production, :development do
 			:encoding => 'utf8'
 	)
 	
+	require 'redis'
+	uri = URI.parse(ENV["REDISTOGO_URL"])
+	REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 	
 	require 'newrelic_rpm'
 	
