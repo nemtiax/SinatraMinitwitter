@@ -2,6 +2,7 @@ class Tweet < ActiveRecord::Base
 	belongs_to :poster, class_name: "User", foreign_key: "user_id"
 	
 	def cached_poster(redis)
+		puts "CHECKING CACHE FOR USER_#{user_id}"
 		if(redis.exists("USER_#{user_id}"))
 			return User.new.from_json(redis.get("USER_#{user_id}"))
 		else
