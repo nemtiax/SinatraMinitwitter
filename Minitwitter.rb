@@ -121,7 +121,7 @@ end
 				#puts "STORED: #{tweet.to_json}"
 				#REDIS.rpush("firehose",tweet.to_json)
 				#REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
-				REDIS.rpush("firehose", erb(:tweet_display, :locals => {:tweet => tweet}))
+				REDIS.rpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
 				
 			end
 		end
