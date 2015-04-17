@@ -18,7 +18,7 @@ end
 
 get '/' do
     @cached_tweets = get_recent_tweets(100)
-	erb :login
+	erb :login, :locals => {:cached_tweets => @cached_tweets}
 end
 
 post '/login' do
