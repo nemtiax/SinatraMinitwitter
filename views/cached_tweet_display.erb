@@ -1,0 +1,13 @@
+
+		<tr>
+			<td>
+				<a href="/users/<%= tweet.poster.id %>">
+					<!-- <img class="img-thumbnail" height="128" width="128"  src="/images/<%= tweet.poster.image_url %>" > -->
+				</a>
+			</td>
+			<td>
+				<a href="/users/<%= tweet.poster.id %>">
+					<%= tweet.poster.name %>
+				</a> sez: "<%= tweet.body %>" at <%= tweet.created_at.strftime("%Y-%m-%d") %> 
+			</td>
+		</tr>

@@ -21,7 +21,11 @@
 </div>
 
 <h1>Recent Tweets</h1>
-<%= erb :'tweet_display', locals: {tweets: @tweets} %>
+<table class="table table-striped"> 
+	<% cached_tweets.each do |cached_tweet| %>
+		<%= cached_tweet %>
+	<% end %>
+</table>
 </div>
 </body>
 </html>

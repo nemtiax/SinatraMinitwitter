@@ -17,10 +17,7 @@ before do
 end
 
 get '/' do
-    @tweets = get_recent_tweets(100)
-	@REDIS = REDIS
-	
-	
+    @cached_tweets = get_recent_tweets(100)
 	erb :login
 end
 
@@ -119,22 +116,20 @@ end
 		if(not REDIS.exists("firehose"))
 			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 			recentTweets.each do |tweet|
+			
+				
 				#puts "STORED: #{tweet.to_json}"
-				REDIS.rpush("firehose",tweet.to_json)
-				REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
+				#REDIS.rpush("firehose",tweet.to_json)
+				#REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
+				REDIS.rpush("firehose",erb :tweet_display, :locals => {:tweet => tweet} 
+				
 			end
 		end
 		tweets = REDIS.lrange("firehose",0,100)
-		puts "END OF LRANGE #{Time.now-tStart}"
-		result = []
-		tweets.each do |tweet|
-			puts "FETCHED: #{Time.now-tStart} #{tweet}"
-			result << Tweet.new.from_json(tweet)
-		end
+	
 		
 		puts "END GET RECENT TWEETS #{Time.now-tStart}"
-		
-		return result
+		return tweets
 		
 		#@@recentTweets ||= Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
 		

@@ -16,7 +16,14 @@
 	<input type="submit" name="commit" value="Tweet It!" />
 </form>
 <h1>Tweets You Follow </h1>
-<%= erb :'tweet_display', locals: {tweets: @followed_tweets} %>
+<table class="table table-striped"> 
+	<% cached_tweets.each do |cached_tweet| %>
+		<%= cached_tweet %>
+	<% end %>
+</table>
+
+
+
 </div>
 
 </body>
