@@ -43,8 +43,7 @@ get '/home' do
 end
 
 post '/tweet' do
-	@tweet = Tweet.new(user_id: session[:user_id], body: params[:tweet_text])
-	@tweet.save
+	post_and_cache_tweet( session[:user_id],params[:tweet_text])
 	redirect '/home'
 end
 
@@ -93,7 +92,16 @@ end
 ####HELPERS#######
 
 
-	
+	def post_and_cache_tweet(user_id,tweet_text)
+		tweet = Tweet.new(user_id: user_id, body: tweet_text)
+		tweet.save
+		
+		if(not REDIS.exists("firehose"))
+			generate_firehose
+		end
+		REDIS.rpoplpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+		
+	end
 
 	def get_user(id_or_name)
 		begin
@@ -111,19 +119,17 @@ end
 		user.tweets.order(:created_at).last(num_results)
 	end
 	
+	def generate_firehose
+			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+			recentTweets.each do |tweet|
+				REDIS.rpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+			end
+	end
+	
 	def get_recent_tweets(num_results)
 		tStart = Time.now
 		if(not REDIS.exists("firehose"))
-			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
-			recentTweets.each do |tweet|
-			
-				
-				#puts "STORED: #{tweet.to_json}"
-				#REDIS.rpush("firehose",tweet.to_json)
-				#REDIS.set("USER_#{tweet.user_id}",tweet.poster.to_json)
-				REDIS.rpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
-				
-			end
+			generate_firehose
 		end
 		tweets = REDIS.lrange("firehose",0,100)
 		
