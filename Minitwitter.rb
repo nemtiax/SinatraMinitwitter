@@ -28,7 +28,6 @@ post '/login' do
 		else 
 			session[:user_id] = @user.id
 			session[:user_name] = @user.name
-			session[:user] = @user
 			redirect '/home'
 		end
 end
@@ -38,7 +37,7 @@ get '/home' do
 		redirect '/'
 	else 
 		
-		@followed_tweets = get_followed_tweets(session[:user])
+		@followed_tweets = get_followed_tweets(session[:user_id])
 		erb :home, :locals => {:cached_tweets => @followed_tweets}
 	end
 end
@@ -117,12 +116,12 @@ end
 		end
 	end
 	
-    def get_followed_tweets(user)
+    def get_followed_tweets(user_id)
 		
-		if(not REDIS.exists("#{user.id}_feed"))
-			generate_user_feed(user)
+		if(not REDIS.exists("#{user_id}_feed"))
+			generate_user_feed(get_user(user_id))
 		end
-		return REDIS.lrange("#{user.id}_feed",0,100)
+		return REDIS.lrange("#{user_id}_feed",0,100)
 		
 	end
 	
