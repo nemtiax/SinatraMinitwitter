@@ -47,6 +47,11 @@ post '/tweet' do
 	redirect '/home'
 end
 
+get '/redis_reset' do
+	REDIS.flushdb()
+	redirect '/'
+end
+
 get '/users/:id_or_name' do
 	get_user(params[:id_or_name])
 	if(@user == nil) 
