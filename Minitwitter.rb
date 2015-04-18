@@ -28,6 +28,7 @@ post '/login' do
 		else 
 			session[:user_id] = @user.id
 			session[:user_name] = @user.name
+			session[:user] = @user
 			redirect '/home'
 		end
 end
@@ -36,8 +37,8 @@ get '/home' do
 	if(session[:user_id]== nil) 
 		redirect '/'
 	else 
-		@user = User.find(session[:user_id])
-		@followed_tweets = get_followed_tweets(@user)
+		
+		@followed_tweets = get_followed_tweets(session[:user])
 		erb :home, :locals => {:cached_tweets => @followed_tweets}
 	end
 end
