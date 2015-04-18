@@ -17,7 +17,7 @@ before do
 end
 
 get '/' do
-    @cached_tweets = get_recent_tweets(100)
+    @cached_tweets = get_recent_tweets
 	erb :login, :locals => {:cached_tweets => @cached_tweets}
 end
 
@@ -37,8 +37,8 @@ get '/home' do
 		redirect '/'
 	else 
 		@user = User.find(session[:user_id])
-		@followed_tweets = get_followed_tweets(@user,10)
-		erb :home
+		@followed_tweets = get_followed_tweets(@user)
+		erb :home, :locals => {:cached_tweets => @followed_tweets}
 	end
 end
 
@@ -111,8 +111,13 @@ end
 		end
 	end
 	
-    def get_followed_tweets(user, num_results)
-		user.followed_tweets.order(:created_at).limit(num_results)
+    def get_followed_tweets(user)
+		
+		if(not REDIS.exists("#{user.id}_feed"))
+			generate_user_feed(user)
+		end
+		return REDIS.lrange("#{user.id}_feed",0,100)
+		
 	end
 	
 	def get_users_tweets(user,num_results)
@@ -120,13 +125,20 @@ end
 	end
 	
 	def generate_firehose
-			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
+			recentTweets = Tweet.includes(:poster).all.order(created_at: :desc).limit(100)
 			recentTweets.each do |tweet|
 				REDIS.rpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
 			end
 	end
 	
-	def get_recent_tweets(num_results)
+	def generate_user_feed(user)
+		followed_tweets = user.followed_tweets.includes(:poster).order(created_at: :desc).limit(100)
+		followed_tweets.each do |tweet|
+			REDIS.rpush("#{user.id}_feed",erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+		end
+	end
+	
+	def get_recent_tweets
 		tStart = Time.now
 		if(not REDIS.exists("firehose"))
 			generate_firehose
