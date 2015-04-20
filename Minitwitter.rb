@@ -150,16 +150,9 @@ end
 	end
 	
 	def get_recent_tweets
-		tStart = Time.now
 		if(not REDIS.exists("firehose"))
 			generate_firehose
 		end
 		tweets = REDIS.lrange("firehose",0,100)
-		
-		
-		puts "END GET RECENT TWEETS #{Time.now-tStart}"
 		return tweets
-		
-		#@@recentTweets ||= Tweet.includes(:poster).all.order(created_at: :desc).limit(num_results)
-		
 	end
