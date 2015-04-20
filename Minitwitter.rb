@@ -106,11 +106,12 @@ end
 
 	def post_and_cache_tweet(user_id,tweet_text)
 		tweet = Tweet.new(user_id: user_id, body: tweet_text)
-		
+		tweet.save
 		if(not REDIS.exists("firehose"))
 			generate_firehose
 		end
 		REDIS.rpoplpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+		tweet.delay.propogate_to_followers
 		
 	end
 
@@ -143,10 +144,7 @@ end
 	end
 	
 	def generate_user_feed(user)
-		followed_tweets = user.followed_tweets.includes(:poster).order(created_at: :desc).limit(100)
-		followed_tweets.each do |tweet|
-			REDIS.rpush("#{user.id}_feed",erb(:cached_tweet_display, :locals => {:tweet => tweet}))
-		end
+		user.generate_feed(REDIS)
 	end
 	
 	def get_recent_tweets

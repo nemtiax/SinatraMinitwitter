@@ -19,7 +19,9 @@ class Tweet < ActiveRecord::Base
 		
 	def propogate_to_followers(redis)
 		followers = self.poster.followers
-		puts followers
+		followers.each do |follower|
+			follower.add_to_feed(self,redis)
+		end
 	end
 	
 	
@@ -54,6 +56,21 @@ class User < ActiveRecord::Base
   
   def self.authenticate(auth_name, auth_password) 
 	AuthenticationHelper.new(auth_name).authenticate(auth_password)
+  end
+  
+  def add_to_feed(tweet,redis)
+	if(not redis.exists("#{self.id}_feed"))
+		self.generate_feed
+	else
+		redis.rpoplpush("#{self.id}_feed", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+	end
+  end
+  
+  def generate_feed(redis)
+	followed_tweets = self.followed_tweets.includes(:poster).order(created_at: :desc).limit(100)
+	followed_tweets.each do |tweet|
+		redis.rpush("#{self.id}_feed",erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+	end
   end
   	
 end
