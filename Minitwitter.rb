@@ -110,9 +110,9 @@ end
 		if(not REDIS.exists("firehose"))
 			generate_firehose
 		end
-		REDIS.rpoplpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+		REDIS.rpop("firehose")
+		REDIS.lpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
 		tweet.delay.propogate_to_followers
-		
 	end
 
 	def get_user(id_or_name)
