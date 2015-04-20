@@ -99,7 +99,7 @@ end
 
 	def post_and_cache_tweet(user_id,tweet_text)
 		tweet = Tweet.new(user_id: user_id, body: tweet_text)
-		tweet.save
+		tweet.delay.save
 		
 		if(not REDIS.exists("firehose"))
 			generate_firehose
