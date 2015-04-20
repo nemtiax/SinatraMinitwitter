@@ -5,15 +5,22 @@ require 'sinatra/static_assets'
 require './config/environments' #database configuration
 
 require './models/model'
+require 'delayed_job'
 
 enable :sessions
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 
-before do
+
+configure :production do
 	uri = URI.parse(ENV["REDISTOGO_URL"])
 	REDIS ||= Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+	Delayed::Worker.backend = :active_record
+	Delayed::Worker.destroy_failed_jobs = true
+	Delayed::Worker.sleep_delay = 5
+	Delayed::Worker.max_attempts = 5
+	Delayed::Worker.max_run_time = 5.minutes
 end
 
 get '/' do
