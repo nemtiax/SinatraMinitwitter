@@ -13,4 +13,3 @@ end
 gem "newrelic_rpm"
 gem "redis"
 gem 'delayed_job_active_record'
-gem 'erb'
