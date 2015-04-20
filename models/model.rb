@@ -16,6 +16,13 @@ class Tweet < ActiveRecord::Base
 		end
 	end
 	
+		
+	def propogate_to_followers(redis)
+		followers = self.poster.followers
+		puts followers
+	end
+	
+	
 end
 
 class FollowerConnection < ActiveRecord::Base
