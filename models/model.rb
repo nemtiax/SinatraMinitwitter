@@ -98,8 +98,7 @@ end
 module ErbHelper
  
  def self.tweet_render(tweet)
-	template = ERB.new File.new("views/cached_tweet_display.erb").read, nil, "%"
-	template.result(OpenStruct.new(vars).instance_eval { :tweet => tweet })
+	 ERB.new(File.new("views/cached_tweet_display.erb").read).result(OpenStruct.new({:tweet => tweet}).instance_eval { binding })
  end
  
 end
