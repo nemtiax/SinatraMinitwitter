@@ -66,7 +66,8 @@ class User < ActiveRecord::Base
 	if(not redis.exists("#{self.id}_feed"))
 		self.generate_feed(redis)
 	else
-		redis.rpoplpush("#{self.id}_feed", ErbHelper.tweet_render(tweet))
+		redis.rpop("#{self.id}_feed")
+		redis.lpush("#{self.id}_feed", ErbHelper.tweet_render(tweet))
 	end
   end
   
