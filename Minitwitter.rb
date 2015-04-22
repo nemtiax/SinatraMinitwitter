@@ -108,11 +108,11 @@ end
 
 
 	def post_and_cache_tweet(user_id,tweet_text)
-		tweet = Tweet.new(user_id: user_id, body: tweet_text)
-		tweet.save
 		if(not REDIS.exists("firehose"))
 			generate_firehose
 		end
+		tweet = Tweet.new(user_id: user_id, body: tweet_text)
+		tweet.save
 		REDIS.rpop("firehose")
 		REDIS.lpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
 		tweet.delay.propogate_to_followers(REDIS)
