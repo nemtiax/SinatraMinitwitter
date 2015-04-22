@@ -13,6 +13,6 @@ configure :production, :development do
 	
 	require 'redis'
 
-	require 'newrelic_rpm'
+	#require 'newrelic_rpm'
 	
 end
