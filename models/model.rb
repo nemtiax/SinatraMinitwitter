@@ -1,4 +1,5 @@
 require 'sinatra/extension'
+require 'erb'
 
 class Tweet < ActiveRecord::Base
 	belongs_to :poster, class_name: "User", foreign_key: "user_id"
@@ -94,10 +95,10 @@ class AuthenticationHelper
 end
 
 module ErbHelper
- extend Sinatra::Extension
  
  def self.tweet_render(tweet)
-	erb(:cached_tweet_display, :locals => {:tweet => tweet})
+	template = ERB.new File.new("views/cached_tweet_display.erb").read, nil, "%"
+	template.result
  end
  
 end
