@@ -98,7 +98,7 @@ module ErbHelper
  
  def self.tweet_render(tweet)
 	template = ERB.new File.new("views/cached_tweet_display.erb").read, nil, "%"
-	template.result
+	template.result(:tweet => tweet)
  end
  
 end
