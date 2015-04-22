@@ -50,6 +50,9 @@ get '/home' do
 end
 
 post '/tweet' do
+	if(session[:user_id]==nil)
+		redirect '/'
+	end
 	post_and_cache_tweet( session[:user_id],params[:tweet_text])
 	redirect '/home'
 end
