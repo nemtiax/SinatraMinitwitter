@@ -112,7 +112,7 @@ end
 		end
 		REDIS.rpop("firehose")
 		REDIS.lpush("firehose", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
-		tweet.delay.propogate_to_followers
+		tweet.delay.propogate_to_followers(REDIS)
 	end
 
 	def get_user(id_or_name)
