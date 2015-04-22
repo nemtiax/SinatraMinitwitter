@@ -1,4 +1,4 @@
-
+require 'sinatra/extension'
 
 class Tweet < ActiveRecord::Base
 	belongs_to :poster, class_name: "User", foreign_key: "user_id"
@@ -64,14 +64,14 @@ class User < ActiveRecord::Base
 	if(not redis.exists("#{self.id}_feed"))
 		self.generate_feed
 	else
-		redis.rpoplpush("#{self.id}_feed", erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+		redis.rpoplpush("#{self.id}_feed", ErbHelper.tweet_render(tweet))
 	end
   end
   
   def generate_feed(redis)
 	followed_tweets = self.followed_tweets.includes(:poster).order(created_at: :desc).limit(100)
 	followed_tweets.each do |tweet|
-		redis.rpush("#{self.id}_feed",erb(:cached_tweet_display, :locals => {:tweet => tweet}))
+		redis.rpush("#{self.id}_feed",ErbHelper.tweet_render(tweet))
 	end
   end
   	
@@ -93,4 +93,12 @@ class AuthenticationHelper
 
 end
 
+module ErbHelper
+ extend Sinatra::Extension
+ 
+ def self.tweet_render(tweet)
+	erb(:cached_tweet_display, :locals => {:tweet => tweet})
+ end
+ 
+end
 
