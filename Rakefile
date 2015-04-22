@@ -1,9 +1,8 @@
-require './Minitwitter'
 require 'sinatra/activerecord/rake'
 require 'delayed_job'
 
 task :environment do
-  require './dj-sinatra'
+  require './Minitwitter'
 end
  
 namespace :jobs do
