@@ -1,5 +1,6 @@
 require 'sinatra/extension'
 require 'erb'
+require 'ostruct'
 
 class Tweet < ActiveRecord::Base
 	belongs_to :poster, class_name: "User", foreign_key: "user_id"
@@ -98,7 +99,7 @@ module ErbHelper
  
  def self.tweet_render(tweet)
 	template = ERB.new File.new("views/cached_tweet_display.erb").read, nil, "%"
-	template.result(:tweet => tweet)
+	template.result(OpenStruct.new(vars).instance_eval { :tweet => tweet })
  end
  
 end
