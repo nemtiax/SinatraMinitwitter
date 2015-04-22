@@ -2,17 +2,18 @@ require './Minitwitter'
 require 'sinatra/activerecord/rake'
 require 'delayed_job'
 
-task :environment
-task :merb_env
-
+task :environment do
+  require './dj-sinatra'
+end
+ 
 namespace :jobs do
   desc "Clear the delayed_job queue."
-  task :clear => [:merb_env, :environment] do
+  task :clear => :environment do
     Delayed::Job.delete_all
   end
-
+ 
   desc "Start a delayed_job worker."
-  task :work => [:merb_env, :environment] do
+  task :work => :environment do
     Delayed::Worker.new(:min_priority => ENV['MIN_PRIORITY'], :max_priority => ENV['MAX_PRIORITY']).start
   end
 end
