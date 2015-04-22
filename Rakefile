@@ -2,6 +2,8 @@ require './Minitwitter'
 require 'sinatra/activerecord/rake'
 require 'delayed_job'
 
+task :environment
+task :merb_env
 
 namespace :jobs do
   desc "Clear the delayed_job queue."
